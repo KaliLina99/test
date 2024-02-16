@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>My shop</title>
+</head>
+<body>
+    <div id="main">
+        <h1>Magazin</h1>
+        <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fru.freepik.com%2Fphotos%2F%25D0%25BA%25D0%25B0%25D1%2580%25D1%2582%25D0%25B8%25D0%25BD%25D0%25BA%25D0%25B8&psig=AOvVaw3zSlUNcxHDRTzLV6Vp57iu&ust=1705339394692000&source=images&cd=vfe&ved=0CBIQjRxqFwoTCJDXkrmy3YMDFQAAAAAdAAAAABAE"> 
+        <p>Text birdeme</p>
+        <button id="buy">Kupit</button>
+    </div>
+    <form id="form">
+        <input type="text" placeholder="Имя" id="user_name">
+        <input type="text" placeholder="Телефон" id="user_phone"
+    <div id="error"></div>
+        <button id="order">Оформить</button>
+    </form>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+    let tg = window.Telegram.WebApp;
+    let buy = document.getElementById("buy")
+    let order = document.getElementById("order")
+    tg.expand();
+
+    buy.addEventListener("click", ()=> {
+        document.getElementById("main").style.display = "none"
+        document.getElementById("form").style.display = "block"
+    })
+
+    order.addEventListener("click", ()=> {
+        document.getElementById("error").innerText = '';
+        let name = document.getElementById("user_name").value;
+        let phone = document.getElementById("user_phone").value;
+
+        if (name === "") {
+            document.getElementById("error").innerText = 'Ошибка в имени';
+            return;
+        }
+        if (!/^\d+$/.test(phone)) {
+            document.getElementById("error").innerText = 'Ошибка в номере телефона';
+            return
+        }
+
+        let data = {
+            name: name,
+            phone: phone
+        }
+        tg.sendData(JSON.stringify(data));
+
+        tg.close();
+    })
+</script>
+</body>
+</html>
